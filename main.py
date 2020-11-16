@@ -129,10 +129,10 @@ def update_product_price():
         if(prod.id == id):
             prod.price = float(input("Enter new price: "))
             found = True
-            #catalog.price(prod)
             print("** Price updated!")
     if(not found):
         print("** Incorrect ID, try again")
+    return found
 
 
 def update_product_stock():
@@ -142,12 +142,33 @@ def update_product_stock():
     found = False
     for prod in catalog:
         if(prod.id == id):
-            prod.stock = float(input("Enter new stock: "))
+            prod.stock = int(input("Enter new stock: "))
             found = True
-            #catalog.stock(prod)
             print("** Stock updated!")
     if(not found):
         print("** Incorrect ID, try again")
+    return found
+
+
+def most_expensive_items():
+    print_header("The three most expensive prices")
+    prices = []
+    for prod in catalog:
+        prices.append(prod.price)
+    prices.sort(reverse=True)
+    print(prices[0])
+    print(prices[1])
+    print(prices[2])
+
+
+def display_category():
+    print_header("Displaying specific category")
+    category = []
+    for prod in catalog:
+        if prod.category not in category:
+            category.append(prod.category)
+    for cat in category:
+        print(cat)
 
     # instructions
 
@@ -176,11 +197,15 @@ while(opc != 'x'):
         delete_product()
         serialize_data()
     elif(opc == '7'):
-        update_product_price()
-        serialize_data()
+        if(update_product_price()):
+            serialize_data()
     elif(opc == '8'):
-        update_product_stock()
-        serialize_data()
+        if(update_product_stock()):
+            serialize_data()
+    elif(opc == '10'):
+        most_expensive_items()
+    elif(opc == '11'):
+        display_category()
     elif(opc == 's'):
         serialize_data()
 
